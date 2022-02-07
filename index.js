@@ -35,7 +35,7 @@ window.onerror = function (errMsg, scriptURI, lineNumber, columnNumber, errorObj
 
 document.querySelector('input').addEventListener('change', function () {
     var that = this;
-    document.querySelector(".item").innerHTML = ""; // 清除預覽
+    // document.querySelector(".item").innerHTML = ""; // 清除預覽
     if (that.files.length > 0) {
         for (var i = 0; i < that.files.length; i++) { 
             lrz(that.files[i], {
