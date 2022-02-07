@@ -60,12 +60,12 @@ document.querySelector('input').addEventListener('change', function () {
                     div.className = 'col-sm-6';
                     div.appendChild(img);
                     div.appendChild(p);
-                    const newImage = rotateImage(img)
+                    const newImages = rotateImage(img)
         
-                    newImage.onload = function () {
+                    newImages.onload = function () {
                         document.querySelector('.item').appendChild(div);
                     };
-                    newImage.src = rst.base64;
+                    newImages.src = rst.base64;
                     img.onload = function () {
                         document.querySelector('.item').appendChild(div);
                     };
