@@ -6,7 +6,9 @@
     <meta charset="UTF-8">
     <title>lrz4 demo&test</title>
 
-    <link rel="stylesheet" href="../src/lib/bootstrap.min.css?v=1e35cd1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    
     <style>
         img {
             width: 100%;
@@ -24,14 +26,6 @@
 
 <body>
     <div class="navbar navbar-default">
-        <div class="pull-right tip text-muted">遇到问题时请截图到 <a
-                href="https://github.com/think2011/localResizeIMG/issues">issues</a>
-        </div>
-        <div class="container">
-            <div class="navbar-header">
-                <a href="./" class="navbar-brand">Lrz4</a>
-            </div>
-        </div>
     </div>
 
     <div class="container">
@@ -39,7 +33,6 @@
         <div class="row">
             <div class="col-xs-12 text-center">
                 <h3 style="margin-top: 0;">上传图片测试</h3>
-                <small><a href="server.html">切换至带服务端演示</a></small>
                 <br>
                 <small class="text-muted">配置：宽度不超过800，高度适应，70%压缩率</small>
                 <br>
@@ -51,24 +44,19 @@
                 <input accept="image/*" type="file" multiple />
             </div>
 
-            <div class="col-xs-12 text-center">
-                <hr />
-                <h3>旋转方向测试</h3>
-                <small class="text-muted">看到的图像应该全是一个方向的，没见到图片是出问题了</small>
-                <hr />
-            </div>
+        </div>
+        <hr />
+        <div class="row item">
+            
         </div>
     </div>
 
-    <footer class="text-center">
-        <hr />
-        <p class="text-muted"><a href="https://github.com/think2011/localResizeIMG">
-                localResizeIMG(<span id="version"></span>版) by think2011</a>
-        </p>
-    </footer>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8"
+        crossorigin="anonymous"></script>
     <script src="./dist/lrz.all.bundle.js"></script>
+    <script src="./dist/exif-js-master/exif.js"></script>
     <script src="./index.js"></script>
 </body>
 
