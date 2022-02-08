@@ -44,12 +44,14 @@ document.querySelector('input').addEventListener('change', function () {
                 function (rst) {
                     var img = new Image(),
                         div = document.createElement('div'),
+                        deleteItem = document.createElement('div'),
                         p = document.createElement('p'),
                         sourceSize = toFixed2(that.files[0].size / 1024),
                         resultSize = toFixed2(rst.fileLen / 1024),
                         scale = parseInt(100 - (resultSize / sourceSize * 100));
         
                     p.style.fontSize = 13 + 'px';
+                    deleteItem.className = "js-cancel"
                     p.innerHTML      = '源文件：<span class="text-danger">' +
                         sourceSize + 'KB' +
                         '</span> <br />' +
@@ -57,7 +59,11 @@ document.querySelector('input').addEventListener('change', function () {
                         resultSize + 'KB (省' + scale + '%)' +
                         '</span> ';
         
-                    div.className = 'col-sm-6';
+                    div.className = 'col-sm-6 cancel';
+                    deleteItem.onclick = function () {                          //绑定点击事件
+                        this.parentNode.parentNode.removeChild(div)
+                    };
+                    div.appendChild(deleteItem);
                     div.appendChild(img);
                     div.appendChild(p);
                     const newImages = rotateImage(img)
@@ -70,8 +76,9 @@ document.querySelector('input').addEventListener('change', function () {
                         document.querySelector('.item').appendChild(div);
                     };
                     img.src = rst.base64;
-        
-        
+                //    $(".item").on('click','.js-cancel', function (e) { 
+                //         console.log(e);
+                //     })
                     /*            /!* ==================================================== *!/
                      // 原生ajax上传代码，所以看起来特别多 ╮(╯_╰)╭，但绝对能用
                      // 其他框架，例如ajax处理formData略有不同，请自行google，baidu。
@@ -106,6 +113,7 @@ document.querySelector('input').addEventListener('change', function () {
         }
     }
 });
+
 
 document.querySelector('.UA').innerHTML      = 'UA: ' + navigator.userAgent;
 
