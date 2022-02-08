@@ -72,13 +72,10 @@ document.querySelector('input').addEventListener('change', function () {
                         document.querySelector('.item').appendChild(div);
                     };
                     newImages.src = rst.base64;
-                    img.onload = function () {
-                        document.querySelector('.item').appendChild(div);
-                    };
-                    img.src = rst.base64;
-                //    $(".item").on('click','.js-cancel', function (e) { 
-                //         console.log(e);
-                //     })
+                    // img.onload = function () {
+                    //     document.querySelector('.item').appendChild(div);
+                    // };
+                    // img.src = rst.base64;
                     /*            /!* ==================================================== *!/
                      // 原生ajax上传代码，所以看起来特别多 ╮(╯_╰)╭，但绝对能用
                      // 其他框架，例如ajax处理formData略有不同，请自行google，baidu。
