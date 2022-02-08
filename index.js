@@ -66,16 +66,16 @@ document.querySelector('input').addEventListener('change', function () {
                     div.appendChild(deleteItem);
                     div.appendChild(img);
                     div.appendChild(p);
-                    const newImages = rotateImage(img)
+
         
                     newImages.onload = function () {
                         document.querySelector('.item').appendChild(div);
                     };
                     newImages.src = rst.base64;
-                    // img.onload = function () {
-                    //     document.querySelector('.item').appendChild(div);
-                    // };
-                    // img.src = rst.base64;
+                    img.onload = function () {
+                        document.querySelector('.item').appendChild(div);
+                    };
+                    img.src = rst.base64;
                     /*            /!* ==================================================== *!/
                      // 原生ajax上传代码，所以看起来特别多 ╮(╯_╰)╭，但绝对能用
                      // 其他框架，例如ajax处理formData略有不同，请自行google，baidu。
@@ -165,78 +165,100 @@ function fireEvent (element, event) {
  * @param image         HTMLImageElement
  * @returns newImage    HTMLImageElement
  */
-function rotateImage(image) {
-    console.log('rotateImage');
+// function rotateImage(image) {
+//     console.log('rotateImage');
 
-    var width = image.width;
-    var height = image.height;
+//     var width = image.width;
+//     var height = image.height;
 
-    var canvas = document.createElement("canvas")
-    var ctx = canvas.getContext('2d');
+//     var canvas = document.createElement("canvas")
+//     var ctx = canvas.getContext('2d');
 
-    var newImage = new Image();
+//     var newImage = new Image();
 
-    //旋轉圖片操作
-    EXIF.getData(image, function () {
-        console.log("hi");
-            var orientation = EXIF.getTag(this,'Orientation');
-            // orientation = 6;//測試資料
-            console.log('orientation:'+orientation);
-            switch (orientation){
-                //正常狀態
-                case 1:
-                    console.log('旋轉0°');
-                    // canvas.height = height;
-                    // canvas.width = width;
-                    newImage = image;
-                    break;
-                //旋轉90度
-                case 6:
-                    console.log('旋轉90°');
-                    canvas.height = width;
-                    canvas.width = height;
-                    ctx.rotate(Math.PI/2);
-                    ctx.translate(0,-height);
+//     //旋轉圖片操作
+//     EXIF.getData(image, function () {
+//         console.log(image);
+//             var orientation = EXIF.getTag(this,'Orientation');
+//             // orientation = 6;//測試資料
+//             console.log('orientation:'+orientation);
+//             switch (orientation){
+//                 //正常狀態
+//                 case 1:
+//                     console.log('旋轉0°');
+//                     // canvas.height = height;
+//                     // canvas.width = width;
+//                     newImage = image;
+//                     break;
+//                 //旋轉90度
+//                 case 6:
+//                     console.log('旋轉90°');
+//                     canvas.height = width;
+//                     canvas.width = height;
+//                     ctx.rotate(Math.PI/2);
+//                     ctx.translate(0,-height);
 
-                    ctx.drawImage(image,0,0)
-                    imageDate = canvas.toDataURL('Image/jpeg',1)
-                    newImage.src = imageDate;
-                    break;
-                //旋轉180°
-                case 3:
-                    console.log('旋轉180°');
-                    canvas.height = height;
-                    canvas.width = width;
-                    ctx.rotate(Math.PI);
-                    ctx.translate(-width,-height);
+//                     ctx.drawImage(image,0,0)
+//                     imageDate = canvas.toDataURL('Image/jpeg',1)
+//                     newImage.src = imageDate;
+//                     break;
+//                 //旋轉180°
+//                 case 3:
+//                     console.log('旋轉180°');
+//                     canvas.height = height;
+//                     canvas.width = width;
+//                     ctx.rotate(Math.PI);
+//                     ctx.translate(-width,-height);
 
-                    ctx.drawImage(image,0,0)
-                    imageDate = canvas.toDataURL('Image/jpeg',1)
-                    newImage.src = imageDate;
-                    break;
-                //旋轉270°
-                case 8:
-                    console.log('旋轉270°');
-                    canvas.height = width;
-                    canvas.width = height;
-                    ctx.rotate(-Math.PI/2);
-                    ctx.translate(-height,0);
+//                     ctx.drawImage(image,0,0)
+//                     imageDate = canvas.toDataURL('Image/jpeg',1)
+//                     newImage.src = imageDate;
+//                     break;
+//                 //旋轉270°
+//                 case 8:
+//                     console.log('旋轉270°');
+//                     canvas.height = width;
+//                     canvas.width = height;
+//                     ctx.rotate(-Math.PI/2);
+//                     ctx.translate(-height,0);
 
-                    ctx.drawImage(image,0,0)
-                    imageDate = canvas.toDataURL('Image/jpeg',1)
-                    newImage.src = imageDate;
-                    break;
-                //undefined時不旋轉
-                case undefined:
-                    console.log('undefined  不旋轉');
-                    newImage = image;
-                    break;
-            }
-        }
-    );
-    return newImage;
-}
-
+//                     ctx.drawImage(image,0,0)
+//                     imageDate = canvas.toDataURL('Image/jpeg',1)
+//                     newImage.src = imageDate;
+//                     break;
+//                 //undefined時不旋轉
+//                 case undefined:
+//                     console.log('undefined  不旋轉');
+//                     newImage = image;
+//                     break;
+//             }
+//         }
+//     );
+//     return newImage;
+// }
+ function displayImage(file) {
+    var options = {
+      maxWidth: resultNode.width(),
+      canvas: true,
+      pixelRatio: window.devicePixelRatio,
+      downsamplingRatio: 0.5,
+      orientation: Number(orientationNode.val()) || true,
+      imageSmoothingEnabled: imageSmoothingNode.is(':checked'),
+      meta: true
+    }
+    if (!loadImage(file, updateResults, options)) {
+      removeMetaData()
+      resultNode
+        .children()
+        .replaceWith(
+          $(
+            '<span>' +
+              'Your browser does not support the URL or FileReader API.' +
+              '</span>'
+          )
+        )
+    }
+  }
 /**
  *
  * 　　　┏┓　　　┏┓
