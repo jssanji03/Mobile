@@ -1,0 +1,2 @@
+.tip{position:relative;top:15px;right:10px}.cancel{position:relative}.cancel .js-cancel{width:30px;height:30px;border-radius:50%;background-color:#ccc;position:absolute;left:300px;z-index:99}.cancel .js-cancel::before{content:"X";position:absolute;left:30%;font-size:20px}.cancel img{width:100%;max-width:320px;padding:10px 15px}
+/*# sourceMappingURL=index.min.css.map */

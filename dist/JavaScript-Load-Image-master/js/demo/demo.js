@@ -89,11 +89,14 @@ $(function () {
    * @param {object} [data] Metadata object
    */
   function displayMetaData(data) {
+    console.log("hi");
     if (!data) return
     metaNode.data(data)
     var exif = data.exif
     var iptc = data.iptc
     if (exif) {
+      
+      console.log("hi");
       var thumbnail = exif.get('Thumbnail')
       if (thumbnail) {
         displayThumbnailImage(thumbNode, thumbnail.get('Blob'), {
@@ -103,6 +106,7 @@ $(function () {
       displayTagData(metaNode, exif.getAll(), 'TIFF')
     }
     if (iptc) {
+      console.log("hi");
       displayTagData(metaNode, iptc.getAll(), 'IPTC')
     }
   }
@@ -123,6 +127,7 @@ $(function () {
    * @param {boolean} [keepMetaData] Keep meta data if true
    */
   function updateResults(img, data, keepMetaData) {
+    
     var isCanvas = window.HTMLCanvasElement && img instanceof HTMLCanvasElement
     if (!keepMetaData) {
       removeMetaData()
@@ -174,6 +179,7 @@ $(function () {
       imageSmoothingEnabled: imageSmoothingNode.is(':checked'),
       meta: true
     }
+    console.log(file);
     if (!loadImage(file, updateResults, options)) {
       removeMetaData()
       resultNode
@@ -247,7 +253,8 @@ $(function () {
         }),
         metaNode.data(),
         true
-      )
+        )
+        console.log(img.orientation);
     }
   })
 
