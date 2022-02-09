@@ -101,9 +101,7 @@ function img_load(rst, img) {
         // const ctx = canvas.getContext('2d');
         console.log(exifOrientation);
         let newImage = img
-        if (exifOrientation == 6 || exifOrientation == 8 || exifOrientation == 3) {
-            const rotateAngle = 0;
-            switch(exifOrientation){
+        switch(exifOrientation){
                 case 3:
                     console.log('旋轉90°');
                     rotateAngle = 180;
@@ -124,9 +122,6 @@ function img_load(rst, img) {
                     newImage = img;
                     break;
             }
-        } else {
-            return
-        }
         return newImage;
         // img.onload = function () {
         //     let rotateAngle = 0;
