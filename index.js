@@ -99,27 +99,33 @@ function img_load(rst, img) {
 
         // const canvas = document.createElement("canvas")
         // const ctx = canvas.getContext('2d');
-
+        console.log(exifOrientation);
         let newImage = img
-        
-        switch(exifOrientation){
-            case 1:
-                console.log('旋轉90°');
-                rotateAngle = 90;
-                newImage.style.transform = 'rotate('+rotateAngle+'deg)'
-                break;
-            case 6:
-                console.log('不旋轉');
-                rotateAngle = 0;
-                break;
-            case 8:
-                console.log('8');
-                rotateAngle = -90;
-                break;
-            case undefined:
-                console.log('undefined  不旋轉');
-                newImage = img;
-                break;
+        if (exifOrientation == 6 || exifOrientation == 8 || exifOrientation == 3) {
+            const rotateAngle = 0;
+            switch(exifOrientation){
+                case 3:
+                    console.log('旋轉90°');
+                    rotateAngle = 180;
+                    newImage.style.transform = 'rotate('+rotateAngle+'deg)'
+                    break;
+                case 6:
+                    console.log('不旋轉');
+                    rotateAngle = 90;
+                    newImage.style.transform = 'rotate('+rotateAngle+'deg)'
+                    break;
+                case 8:
+                    console.log('8');
+                    rotateAngle = -90;
+                    newImage.style.transform = 'rotate('+rotateAngle+'deg)'
+                    break;
+                case undefined:
+                    console.log('undefined  不旋轉');
+                    newImage = img;
+                    break;
+            }
+        } else {
+            return
         }
         return newImage;
         // img.onload = function () {
@@ -196,81 +202,7 @@ function fireEvent (element, event) {
  * @param image         HTMLImageElement
  * @returns newImage    HTMLImageElement
  */
-function rotateAndCompress(image, Orientation) {
-    console.log("hi rotateAndCompress");
-    console.log(Orientation);
-    let imgWidthOrigin = image.width
-    let imgHeightOrigin = image.height
-    // 壓縮圖片
-    let ratio = imgWidthOrigin / imgHeightOrigin
-    // 假設壓縮後的圖片的寬度為500px
-    let canvasWidth = 500
-    let canvasHeight = Math.ceil(500 / ratio)
-    // 旋轉並壓縮
-    let canvas = document.getElementById('canvas')
-    let ctx = canvas.getContext('2d')
-    canvas.width = canvasWidth
-    canvas.height = canvasHeight
-    if (Orientation && Orientation !== 1) {
-        switch (Orientation) {
-            case 6:
-             canvas.width = canvasHeight
-             canvas.height = canvasWidth
-             ctx.rotate(90 * Math.PI / 180)
-             ctx.drawImage(image, 0, -canvasHeight, canvasWidth, canvasHeight)
-             break
-            case 3:
-             ctx.rotate(Math.PI)
-             ctx.drawImage(image, -canvasWidth, -canvasHeight, canvasWidth,canvasHeight)
-             break
-            case 8:
-            // 旋轉-90度相當於旋轉了270度
-             canvas.width = canvasHeight
-             canvas.height = canvasWidth
-             ctx.rotate(270 * Math.PI / 180)
-             ctx.drawImage(image, -canvasWidth, 0, canvasWidth, canvasHeight)
-             break
-        }
-    } else {
-        ctx.drawImage(image, 0, 0, canvasWidth, canvasHeight)
-    }
-}
 
-
-function rotateImage(image) {
-    EXIF.getData(image, function() {
-        console.log(image);
-        var exifData = EXIF.pretty(this);
-        if (exifData) {
-            console.log(exifData);
-        } else {
-            alert("No EXIF data found in image '" + file.name + "'.");
-        }
-    });
-}
- function displayImage(file) {
-    var options = {
-      maxWidth: resultNode.width(),
-      canvas: true,
-      pixelRatio: window.devicePixelRatio,
-      downsamplingRatio: 0.5,
-      orientation: true,
-      imageSmoothingEnabled: imageSmoothingNode.is(':checked'),
-      meta: true
-    }
-    if (!loadImage(file, updateResults, options)) {
-      removeMetaData()
-      resultNode
-        .children()
-        .replaceWith(
-          $(
-            '<span>' +
-              'Your browser does not support the URL or FileReader API.' +
-              '</span>'
-          )
-        )
-    }
-  }
 /**
  *
  * 　　　┏┓　　　┏┓
