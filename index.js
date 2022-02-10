@@ -51,7 +51,7 @@ document.querySelector('input').addEventListener('change', function () {
                         resultSize = toFixed2(rst.fileLen / 1024),
                         scale = parseInt(100 - (resultSize / sourceSize * 100));
                         
-                    img_load(rst,img)
+                    
 
                     deleteItem.className = "js-cancel"
                     div.className = 'col-sm-6 cancel';
@@ -69,6 +69,14 @@ document.querySelector('input').addEventListener('change', function () {
                     //     resultSize + 'KB (省' + scale + '%)' +
                     //     '</span> ';
                     
+                    // img_load(rst,img)
+                    const newImages = rotateImage(rst,img)
+        
+                    newImages.onload = function () {
+                        document.querySelector('.item').appendChild(div);
+                    };
+                    newImages.src = rst.base64;
+
                     img.onload = function () {
                         document.querySelector('.item').appendChild(div);
                     };
@@ -197,6 +205,71 @@ function fireEvent (element, event) {
  * @param image         HTMLImageElement
  * @returns newImage    HTMLImageElement
  */
+function rotateImage(image) {
+    console.log('rotateImage');
+    console.log(image);
+    var width = image.width;
+    var height = image.height;
+    var canvas = document.createElement("canvas")
+    var ctx = canvas.getContext('2d');
+    var newImage = new Image();
+    //旋轉圖片操作
+    EXIF.getData(image, function () {
+        console.log("hi");
+            var orientation = EXIF.getTag(this,'Orientation');
+            // orientation = 6;//測試資料
+            console.log('orientation:'+orientation);
+            switch (orientation){
+                //正常狀態
+                case 1:
+                    console.log('旋轉0°');
+                    // canvas.height = height;
+                    // canvas.width = width;
+                    newImage = image;
+                    break;
+                //旋轉90度
+                case 6:
+                    console.log('旋轉90°');
+                    canvas.height = width;
+                    canvas.width = height;
+                    ctx.rotate(Math.PI/2);
+                    ctx.translate(0,-height);
+                    ctx.drawImage(image,0,0)
+                    imageDate = canvas.toDataURL('Image/jpeg',1)
+                    newImage.src = imageDate;
+                    break;
+                //旋轉180°
+                case 3:
+                    console.log('旋轉180°');
+                    canvas.height = height;
+                    canvas.width = width;
+                    ctx.rotate(Math.PI);
+                    ctx.translate(-width,-height);
+                    ctx.drawImage(image,0,0)
+                    imageDate = canvas.toDataURL('Image/jpeg',1)
+                    newImage.src = imageDate;
+                    break;
+                //旋轉270°
+                case 8:
+                    console.log('旋轉270°');
+                    canvas.height = width;
+                    canvas.width = height;
+                    ctx.rotate(-Math.PI/2);
+                    ctx.translate(-height,0);
+                    ctx.drawImage(image,0,0)
+                    imageDate = canvas.toDataURL('Image/jpeg',1)
+                    newImage.src = imageDate;
+                    break;
+                //undefined時不旋轉
+                case undefined:
+                    console.log('undefined  不旋轉');
+                    newImage = image;
+                    break;
+            }
+        }
+    );
+    return newImage;
+}
 
 /**
  *
