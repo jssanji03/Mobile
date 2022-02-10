@@ -118,12 +118,12 @@ function img_load(rst, img) {
                             break;
                         case 6:
                             console.log('旋轉90°');
-                            rotateAngle = 90;
+                            rotateAngle = -90;
                             newImage.style.transform = 'rotate('+rotateAngle+'deg)'
                             break;
                         case 8:
-                            console.log('8');
-                            rotateAngle = -90;
+                            console.log('90');
+                            rotateAngle = 90;
                             newImage.style.transform = 'rotate('+rotateAngle+'deg)'
                             break;
                         case undefined:
