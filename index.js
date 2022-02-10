@@ -14,25 +14,6 @@ window.onerror = function (errMsg, scriptURI, lineNumber, columnNumber, errorObj
 };
 
 
-// [].forEach.call(document.querySelectorAll('[data-src]'), function (el) {
-//     (function (el) {
-//         el.addEventListener('click', function () {
-//             el.src = 'img/loading.gif';
-
-//             lrz(el.dataset.src)
-//                 .then(function (rst) {
-//                     el.src = rst.base64;
-
-
-//                     return rst;
-//                 });
-//         });
-
-//         fireEvent(el, 'click');
-//     })(el);
-// });
-
-
 document.querySelector('input').addEventListener('change', function () {
     var that = this;
     // document.querySelector(".item").innerHTML = ""; // 清除預覽
@@ -50,7 +31,10 @@ document.querySelector('input').addEventListener('change', function () {
                         resultSize = toFixed2(rst.fileLen / 1024),
                         scale = parseInt(100 - (resultSize / sourceSize * 100));
                         
-                    
+                    const u = navigator.userAgent;
+                    console.log(navigator.userAgent.match())
+                    const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android終端
+                    const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios終端
 
                     deleteItem.className = "js-cancel"
                     div.className = 'col-sm-6 cancel';
@@ -67,8 +51,9 @@ document.querySelector('input').addEventListener('change', function () {
                     //     '压缩后传输大小：<span class="text-success">' +
                     //     resultSize + 'KB (省' + scale + '%)' +
                     //     '</span> ';
-
-                    img_load(rst,img)
+                    if (isiOS == true) {
+                        img_load(rst,img)
+                    }
                     // const newImages = img_load(rst,img)
                     // newImages.onload = function () {
                     //     document.querySelector('.item').appendChild(div);
@@ -88,7 +73,8 @@ document.querySelector('input').addEventListener('change', function () {
 });
 
 
-document.querySelector('.UA').innerHTML      = 'UA: ' + navigator.userAgent;
+document.querySelector('.UA').innerHTML = 'UA: ' + navigator.userAgent;
+
 
 function toFixed2 (num) {
     return parseFloat(+num.toFixed(2));
@@ -96,17 +82,9 @@ function toFixed2 (num) {
 
 function img_load(rst, img) {
     const file = rst.origin
-    console.log(file);
     if (file) {
-        var reader = new FileReader();
         EXIF.getData(file, function () {
-            // var exifData = EXIF.pretty(this);
             var exifOrientation = EXIF.getTag(this, 'Orientation');
-            // const width = image.width;
-            // const height = image.height;
-    
-            // const canvas = document.createElement("canvas")
-            // const ctx = canvas.getContext('2d');
             let newImage = img
             console.log(exifOrientation);
             if (exifOrientation == 6 || exifOrientation == 8 || exifOrientation == 3 || exifOrientation == undefined ) {
@@ -135,29 +113,6 @@ function img_load(rst, img) {
                 return
             }
             return newImage;
-            // img.onload = function () {
-            //     let rotateAngle = 0;
-            //     document.querySelector('.item').appendChild(div);
-            //     if (exifOrientation == 1 || exifOrientation == 6 || exifOrientation == 8) {
-            //         switch(exifOrientation){
-            //             case 1:
-            //                 rotateAngle = 90;
-            //                 break;
-            //             case 6:
-            //                 rotateAngle = 0;
-            //                 break;
-            //             case 8:
-            //                 rotateAngle = -90;
-            //                 break;
-            //         }
-            //     } else {
-            //         return
-            //     }
-            //     const el = document.querySelectorAll('img');
-            //     el.forEach((e) => {
-            //         e.style.transform = 'rotate('+rotateAngle+'deg)'
-            //     })
-            // };
         });
     }
 }
@@ -179,29 +134,6 @@ String.prototype.render = function (obj) {
     return str;
 };
 
-/**
- * 触发事件 - 只是为了兼容演示demo而已
- * @param element
- * @param event
- * @returns {boolean}
- */
-function fireEvent (element, event) {
-    var evt;
-
-    if (document.createEventObject) {
-        // IE浏览器支持fireEvent方法
-        evt = document.createEventObject();
-        return element.fireEvent('on' + event, evt)
-    }
-    else {
-        // 其他标准浏览器使用dispatchEvent方法
-        evt = document.createEvent('HTMLEvents');
-        // initEvent接受3个参数：
-        // 事件类型，是否冒泡，是否阻止浏览器的默认行为
-        evt.initEvent(event, true, true);
-        return !element.dispatchEvent(evt);
-    }
-}
 
 /**
  * 旋轉圖片
