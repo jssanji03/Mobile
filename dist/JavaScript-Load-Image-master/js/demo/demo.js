@@ -66,22 +66,22 @@ $(function () {
    * @param {string} thumbnail Thumbnail URL
    * @param {object} [options] Options object
    */
-  function displayThumbnailImage(node, thumbnail, options) {
-    if (thumbnail) {
-      var link = $('<a></a>')
-        .attr('href', loadImage.createObjectURL(thumbnail))
-        .attr('download', 'thumbnail.jpg')
-        .appendTo(node)
-      loadImage(
-        thumbnail,
-        function (img) {
-          link.append(img)
-          node.show()
-        },
-        options
-      )
-    }
-  }
+  // function displayThumbnailImage(node, thumbnail, options) {
+  //   if (thumbnail) {
+  //     var link = $('<a></a>')
+  //       .attr('href', loadImage.createObjectURL(thumbnail))
+  //       .attr('download', 'thumbnail.jpg')
+  //       .appendTo(node)
+  //     loadImage(
+  //       thumbnail,
+  //       function (img) {
+  //         link.append(img)
+  //         node.show()
+  //       },
+  //       options
+  //     )
+  //   }
+  // }
 
   /**
    * Displays metadata
@@ -89,14 +89,11 @@ $(function () {
    * @param {object} [data] Metadata object
    */
   function displayMetaData(data) {
-    console.log("hi");
     if (!data) return
     metaNode.data(data)
     var exif = data.exif
     var iptc = data.iptc
     if (exif) {
-      
-      console.log("hi");
       var thumbnail = exif.get('Thumbnail')
       if (thumbnail) {
         displayThumbnailImage(thumbNode, thumbnail.get('Blob'), {
@@ -106,7 +103,6 @@ $(function () {
       displayTagData(metaNode, exif.getAll(), 'TIFF')
     }
     if (iptc) {
-      console.log("hi");
       displayTagData(metaNode, iptc.getAll(), 'IPTC')
     }
   }
@@ -127,7 +123,6 @@ $(function () {
    * @param {boolean} [keepMetaData] Keep meta data if true
    */
   function updateResults(img, data, keepMetaData) {
-    
     var isCanvas = window.HTMLCanvasElement && img instanceof HTMLCanvasElement
     if (!keepMetaData) {
       removeMetaData()
@@ -140,6 +135,7 @@ $(function () {
         actionsNode.hide()
       }
     }
+    console.log(img);
     if (!(isCanvas || img.src)) {
       resultNode
         .children()
@@ -169,18 +165,28 @@ $(function () {
    *
    * @param {File|Blob|string} file File or Blob object or image URL
    */
-  function displayImage(file) {
+  function displayImage(file, eventTarget, img) {
+    if (eventTarget.files.length > 0) {
+      for (var i = 0; i < eventTarget.files.length; i++) { 
+        loadImage(
+          eventTarget.files[i],
+          function (img) {
+            updateResults(img)
+          },
+          options
+        )
+      }
+    }
     var options = {
-      maxWidth: resultNode.width(),
-      canvas: true,
+      maxWidth: 320,
+      canvas: false,
       pixelRatio: window.devicePixelRatio,
       downsamplingRatio: 0.5,
       orientation: Number(orientationNode.val()) || true,
-      imageSmoothingEnabled: imageSmoothingNode.is(':checked'),
-      meta: true
+      // imageSmoothingEnabled: imageSmoothingNode.is(':checked'),
+      meta: false
     }
-    console.log(file);
-    if (!loadImage(file, updateResults, options)) {
+    if (!loadImage(file, updateResults, options, eventTarget)) {
       removeMetaData()
       resultNode
         .children()
@@ -201,13 +207,17 @@ $(function () {
    */
   function fileChangeHandler(event) {
     event.preventDefault()
+    var eventTarget = event.target
     var originalEvent = event.originalEvent
     var target = originalEvent.dataTransfer || originalEvent.target
     var file = target && target.files && target.files[0]
+    var fileLength = eventTarget.files.length
     if (!file) {
       return
     }
-    displayImage(file)
+    if (fileLength > 0) {
+      displayImage(file,eventTarget)
+    }
   }
 
   /**

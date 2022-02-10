@@ -36,7 +36,6 @@ window.onerror = function (errMsg, scriptURI, lineNumber, columnNumber, errorObj
 document.querySelector('input').addEventListener('change', function () {
     var that = this;
     // document.querySelector(".item").innerHTML = ""; // 清除預覽
-                    
     if (that.files.length > 0) {
         for (var i = 0; i < that.files.length; i++) { 
             lrz(that.files[i], {
@@ -68,14 +67,13 @@ document.querySelector('input').addEventListener('change', function () {
                     //     '压缩后传输大小：<span class="text-success">' +
                     //     resultSize + 'KB (省' + scale + '%)' +
                     //     '</span> ';
-                    
-                    // img_load(rst,img)
-                    const newImages = rotateImage(rst,img)
-        
-                    newImages.onload = function () {
-                        document.querySelector('.item').appendChild(div);
-                    };
-                    newImages.src = rst.base64;
+
+                    img_load(rst,img)
+                    // const newImages = img_load(rst,img)
+                    // newImages.onload = function () {
+                    //     document.querySelector('.item').appendChild(div);
+                    // };
+                    // newImages.src = rst.base64;
 
                     img.onload = function () {
                         document.querySelector('.item').appendChild(div);
@@ -97,66 +95,67 @@ function toFixed2 (num) {
 }
 
 function img_load(rst, img) {
-    
     const file = rst.origin
-    EXIF.getData(file, function () {
-        // var exifData = EXIF.pretty(this);
-        const exifOrientation = EXIF.getTag(this, 'Orientation');
-        // const width = image.width;
-        // const height = image.height;
-
-        // const canvas = document.createElement("canvas")
-        // const ctx = canvas.getContext('2d');
-        console.log(exifOrientation);
-        let newImage = img
-        switch(exifOrientation){
-                case 3:
-                    console.log('旋轉90°');
-                    rotateAngle = 180;
-                    newImage.style.transform = 'rotate('+rotateAngle+'deg)'
-                    break;
-                case 6:
-                    console.log('不旋轉');
-                    rotateAngle = 90;
-                    newImage.style.transform = 'rotate('+rotateAngle+'deg)'
-                    break;
-                case 8:
-                    console.log('8');
-                    rotateAngle = -90;
-                    newImage.style.transform = 'rotate('+rotateAngle+'deg)'
-                    break;
-                case undefined:
-                    console.log('undefined  不旋轉');
-                    newImage = img;
-                    break;
-            }
-        return newImage;
-        // img.onload = function () {
-        //     let rotateAngle = 0;
-        //     document.querySelector('.item').appendChild(div);
-        //     if (exifOrientation == 1 || exifOrientation == 6 || exifOrientation == 8) {
-        //         switch(exifOrientation){
-        //             case 1:
-        //                 rotateAngle = 90;
-        //                 break;
-        //             case 6:
-        //                 rotateAngle = 0;
-        //                 break;
-        //             case 8:
-        //                 rotateAngle = -90;
-        //                 break;
-        //         }
-        //     } else {
-        //         return
-        //     }
-        //     const el = document.querySelectorAll('img');
-        //     el.forEach((e) => {
-        //         e.style.transform = 'rotate('+rotateAngle+'deg)'
-        //     })
-        // };
-    });
-    // if (file && file.name) {
-    // }
+    console.log(file);
+    if (file) {
+        var reader = new FileReader();
+        EXIF.getData(file, function () {
+            // var exifData = EXIF.pretty(this);
+            var exifOrientation = EXIF.getTag(this, 'Orientation');
+            // const width = image.width;
+            // const height = image.height;
+    
+            // const canvas = document.createElement("canvas")
+            // const ctx = canvas.getContext('2d');
+            let newImage = img
+            console.log(exifOrientation);
+            switch(exifOrientation){
+                    case 3:
+                        console.log('旋轉180°');
+                        rotateAngle = 180;
+                        newImage.style.transform = 'rotate('+rotateAngle+'deg)'
+                        break;
+                    case 6:
+                        console.log('旋轉90°');
+                        rotateAngle = 90;
+                        newImage.style.transform = 'rotate('+rotateAngle+'deg)'
+                        break;
+                    case 8:
+                        console.log('8');
+                        rotateAngle = -90;
+                        newImage.style.transform = 'rotate('+rotateAngle+'deg)'
+                        break;
+                    case undefined:
+                        console.log('undefined  不旋轉');
+                        newImage = img;
+                        break;
+                }
+            return newImage;
+            // img.onload = function () {
+            //     let rotateAngle = 0;
+            //     document.querySelector('.item').appendChild(div);
+            //     if (exifOrientation == 1 || exifOrientation == 6 || exifOrientation == 8) {
+            //         switch(exifOrientation){
+            //             case 1:
+            //                 rotateAngle = 90;
+            //                 break;
+            //             case 6:
+            //                 rotateAngle = 0;
+            //                 break;
+            //             case 8:
+            //                 rotateAngle = -90;
+            //                 break;
+            //         }
+            //     } else {
+            //         return
+            //     }
+            //     const el = document.querySelectorAll('img');
+            //     el.forEach((e) => {
+            //         e.style.transform = 'rotate('+rotateAngle+'deg)'
+            //     })
+            // };
+        });
+    }
 }
 /**
  * 替换字符串 !{}

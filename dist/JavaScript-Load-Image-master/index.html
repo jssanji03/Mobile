@@ -39,79 +39,12 @@
   </head>
   <body>
     <h1>JavaScript Load Image Demo</h1>
-    <p>
-      <a href="https://github.com/blueimp/JavaScript-Load-Image"
-        >JavaScript Load Image</a
-      >
-      is a library to load images provided as
-      <a href="https://developer.mozilla.org/en-US/docs/Web/API/File">File</a>
-      or
-      <a href="https://developer.mozilla.org/en-US/docs/Web/API/Blob">Blob</a>
-      objects or via URL.<br />
-      It returns an optionally <strong>scaled</strong>,
-      <strong>cropped</strong> or <strong>rotated</strong> HTML
-      <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Img"
-        >img</a
-      >
-      or
-      <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API"
-        >canvas</a
-      >
-      element.
-    </p>
-    <p>
-      It also provides methods to parse image metadata to extract
-      <a href="https://iptc.org/standards/photo-metadata/">IPTC</a> and
-      <a href="https://en.wikipedia.org/wiki/Exif">Exif</a> tags as well as
-      embedded thumbnail images, to overwrite the Exif Orientation value and to
-      restore the complete image header after resizing.
-    </p>
-    <ul id="navigation">
-      <li>
-        <a href="https://github.com/blueimp/JavaScript-Load-Image/releases"
-          >Download</a
-        >
-      </li>
-      <li>
-        <a href="https://github.com/blueimp/JavaScript-Load-Image"
-          >Source Code</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/blueimp/JavaScript-Load-Image/blob/master/README.md"
-          >Documentation</a
-        >
-      </li>
-      <li><a href="test/">Test</a></li>
-      <li><a href="https://blueimp.net">&copy; Sebastian Tschan</a></li>
-    </ul>
+  
     <h2>File input</h2>
     <p>
       <label for="file-input">Select an image file:</label>
       <input type="file" id="file-input" multiple/>
     </p>
-    <!-- <p>Or <strong>drag &amp; drop</strong> an image file onto this webpage.</p> -->
-    <h3>Options</h3>
-    <p>
-      <label for="orientation">Orientation:</label>
-      <select id="orientation">
-        <option value="-1">undefined: Browser default</option>
-        <option value="0" selected>true: Automatic</option>
-        <option value="1">1: Original</option>
-        <option value="2">2: Horizontal flip</option>
-        <option value="3">3: Rotate 180° CCW</option>
-        <option value="4">4: Vertical flip</option>
-        <option value="5">5: Vertical flip + Rotate 90° CW</option>
-        <option value="6">6: Rotate 90° CW</option>
-        <option value="7">7: Horizontal flip + Rotate 90° CW</option>
-        <option value="8">8: Rotate 90° CCW</option>
-      </select>
-    </p>
-    <!-- <p>
-      <input type="checkbox" id="image-smoothing" checked />
-      <label for="image-smoothing">Image smoothing</label>
-    </p> -->
     <h2>Result</h2>
     <!-- <p id="actions" style="display: none;">
       <but type="button" id="edit">Edit</but
@@ -137,13 +70,13 @@
     <script src="js/vendor/canvas-to-blob.js"></script>
     <script src="js/load-image.js"></script>
     <script src="js/load-image-scale.js"></script>
-    <!-- <script src="js/load-image-meta.js"></script>
-    <script src="js/load-image-fetch.js"></script> -->
+    <script src="js/load-image-meta.js"></script>
+    <script src="js/load-image-fetch.js"></script>
     <script src="js/load-image-orientation.js"></script>
-    <!-- <script src="js/load-image-exif.js"></script> -->
-    <!-- <script src="js/load-image-exif-map.js"></script> -->
-    <!-- <script src="js/load-image-iptc.js"></script>
-    <script src="js/load-image-iptc-map.js"></script> -->
+    <script src="js/load-image-exif.js"></script>
+    <script src="js/load-image-exif-map.js"></script>
+    <script src="js/load-image-iptc.js"></script>
+    <script src="js/load-image-iptc-map.js"></script>
     <!--
       jQuery and Jcrop are not required by JavaScript Load Image,
       but included for the demo
