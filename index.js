@@ -109,27 +109,31 @@ function img_load(rst, img) {
             // const ctx = canvas.getContext('2d');
             let newImage = img
             console.log(exifOrientation);
-            switch(exifOrientation){
-                    case 3:
-                        console.log('旋轉180°');
-                        rotateAngle = 180;
-                        newImage.style.transform = 'rotate('+rotateAngle+'deg)'
-                        break;
-                    case 6:
-                        console.log('旋轉90°');
-                        rotateAngle = 90;
-                        newImage.style.transform = 'rotate('+rotateAngle+'deg)'
-                        break;
-                    case 8:
-                        console.log('8');
-                        rotateAngle = -90;
-                        newImage.style.transform = 'rotate('+rotateAngle+'deg)'
-                        break;
-                    case undefined:
-                        console.log('undefined  不旋轉');
-                        newImage = img;
-                        break;
-                }
+            if (exifOrientation == 6 || exifOrientation == 8 || exifOrientation == 3 || exifOrientation == undefined ) {
+                switch(exifOrientation){
+                        case 3:
+                            console.log('旋轉180°');
+                            rotateAngle = 180;
+                            newImage.style.transform = 'rotate('+rotateAngle+'deg)'
+                            break;
+                        case 6:
+                            console.log('旋轉90°');
+                            rotateAngle = 90;
+                            newImage.style.transform = 'rotate('+rotateAngle+'deg)'
+                            break;
+                        case 8:
+                            console.log('8');
+                            rotateAngle = -90;
+                            newImage.style.transform = 'rotate('+rotateAngle+'deg)'
+                            break;
+                        case undefined:
+                            console.log('undefined  不旋轉');
+                            newImage = img;
+                            break;
+                    }
+            } else {
+                return
+            }
             return newImage;
             // img.onload = function () {
             //     let rotateAngle = 0;
