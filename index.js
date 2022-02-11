@@ -32,10 +32,11 @@ document.querySelector('input').addEventListener('change', function () {
                         scale = parseInt(100 - (resultSize / sourceSize * 100));
                         
                     const u = navigator.userAgent;
-                    console.log(navigator.userAgent.match())
                     const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android終端
                     const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios終端
 
+                    
+                    
                     deleteItem.className = "js-cancel"
                     div.className = 'col-sm-6 cancel';
                     deleteItem.onclick = function () {                          //绑定点击事件
@@ -51,9 +52,10 @@ document.querySelector('input').addEventListener('change', function () {
                     //     '压缩后传输大小：<span class="text-success">' +
                     //     resultSize + 'KB (省' + scale + '%)' +
                     //     '</span> ';
-                    if (isiOS == true) {
-                        img_load(rst,img)
-                    }
+                    img_load(rst,img)
+                    // if (isiOS == true) {
+                    //     img_load(rst,img)
+                    // }
                     // const newImages = img_load(rst,img)
                     // newImages.onload = function () {
                     //     document.querySelector('.item').appendChild(div);
@@ -62,9 +64,23 @@ document.querySelector('input').addEventListener('change', function () {
 
                     img.onload = function () {
                         document.querySelector('.item').appendChild(div);
+                        var parentDOM = document.querySelector(".item");
+                        const nameID = parentDOM.getElementsByTagName("img")
+                        console.log(nameID[1]);
+                        for (let i = 0; i < nameID.length; i++){
+                            nameID[i].setAttribute("name", `image.${i}`);
+                        }
                     };
                     img.src = rst.base64;
-        
+                    
+                    
+                    // let nameId = 1
+                    // img.setAttribute("name", `image.${nameId}`);
+                    // var arrImg = document.images;
+                    // img.forEach((item) => {
+                    //     console.log(item);
+                    //     console.log("hi");
+                    // })
                     return rst;
                 }
             );
@@ -86,7 +102,6 @@ function img_load(rst, img) {
         EXIF.getData(file, function () {
             var exifOrientation = EXIF.getTag(this, 'Orientation');
             let newImage = img
-            console.log(exifOrientation);
             if (exifOrientation == 6 || exifOrientation == 8 || exifOrientation == 3 || exifOrientation == undefined ) {
                 switch(exifOrientation){
                         case 3:

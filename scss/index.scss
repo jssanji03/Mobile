@@ -6,24 +6,29 @@
 }
 .cancel{
     position: relative;
+    text-align: center;
     .js-cancel{
-        width: 30px;
-        height: 30px;
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
-        background-color: #ccc;
+        background-color: rgba(204, 204, 204, 0.664);
         position: absolute;
-        left: 300px;
+        left: 45%;
+        top: 40%;
         z-index: 99;
         &::before{
             content: "X";
             position: absolute;
             left: 30%;
-            font-size: 20px;
+            top: 0%;
+            color: rgb(80, 80, 80);
+            font-size: 40px;
         }
     }
     img {
         width: 100%;
         max-width: 320px;
         padding: 10px 15px;
+        margin-top: 20px;
     }
 }

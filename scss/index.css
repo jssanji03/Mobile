@@ -6,15 +6,17 @@
 
 .cancel {
   position: relative;
+  text-align: center;
 }
 
 .cancel .js-cancel {
-  width: 30px;
-  height: 30px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  background-color: #ccc;
+  background-color: rgba(204, 204, 204, 0.664);
   position: absolute;
-  left: 300px;
+  left: 45%;
+  top: 40%;
   z-index: 99;
 }
 
@@ -22,12 +24,15 @@
   content: "X";
   position: absolute;
   left: 30%;
-  font-size: 20px;
+  top: 0%;
+  color: #505050;
+  font-size: 40px;
 }
 
 .cancel img {
   width: 100%;
   max-width: 320px;
   padding: 10px 15px;
+  margin-top: 20px;
 }
 /*# sourceMappingURL=index.css.map */
