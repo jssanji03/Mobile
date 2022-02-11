@@ -52,10 +52,10 @@ document.querySelector('input').addEventListener('change', function () {
                     //     '压缩后传输大小：<span class="text-success">' +
                     //     resultSize + 'KB (省' + scale + '%)' +
                     //     '</span> ';
-                    img_load(rst,img)
-                    // if (isiOS == true) {
-                    //     img_load(rst,img)
-                    // }
+                    // img_load(rst,img)
+                    if (isiOS == true) {
+                        img_load(rst,img)
+                    }
                     // const newImages = img_load(rst,img)
                     // newImages.onload = function () {
                     //     document.querySelector('.item').appendChild(div);
