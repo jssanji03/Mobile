@@ -52,10 +52,11 @@ document.querySelector('input').addEventListener('change', function () {
                     //     '压缩后传输大小：<span class="text-success">' +
                     //     resultSize + 'KB (省' + scale + '%)' +
                     //     '</span> ';
-                    // img_load(rst,img)
-                    if (isiOS == true) {
-                        img_load(rst,img)
-                    }
+                   
+                    // if (isiOS == true) {
+                    //     img_load(rst,img)
+                    // }
+                    
                     // const newImages = img_load(rst,img)
                     // newImages.onload = function () {
                     //     document.querySelector('.item').appendChild(div);
@@ -66,7 +67,7 @@ document.querySelector('input').addEventListener('change', function () {
                         document.querySelector('.item').appendChild(div);
                         var parentDOM = document.querySelector(".item");
                         const nameID = parentDOM.getElementsByTagName("img")
-                        console.log(nameID[1]);
+                        img_load(rst,img)
                         for (let i = 0; i < nameID.length; i++){
                             nameID[i].setAttribute("name", `image.${i}`);
                         }
@@ -100,33 +101,39 @@ function img_load(rst, img) {
     const file = rst.origin
     if (file) {
         EXIF.getData(file, function () {
-            var exifOrientation = EXIF.getTag(this, 'Orientation');
-            let newImage = img
-            if (exifOrientation == 6 || exifOrientation == 8 || exifOrientation == 3 || exifOrientation == undefined ) {
-                switch(exifOrientation){
-                        case 3:
-                            console.log('旋轉180°');
-                            rotateAngle = 180;
-                            newImage.style.transform = 'rotate('+rotateAngle+'deg)'
-                            break;
-                        case 6:
-                            console.log('旋轉90°');
-                            rotateAngle = -90;
-                            newImage.style.transform = 'rotate('+rotateAngle+'deg)'
-                            break;
-                        case 8:
-                            console.log('90');
-                            rotateAngle = 90;
-                            newImage.style.transform = 'rotate('+rotateAngle+'deg)'
-                            break;
-                        case undefined:
-                            console.log('undefined  不旋轉');
-                            newImage = img;
-                            break;
-                    }
-            } else {
-                return
-            }
+            const exifOrientation = EXIF.getTag(this, 'Orientation');
+            let newImage = img;
+            const ua = navigator.userAgent;
+            const mobile = /iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/i.test(ua);
+            if (/iPad|iPhone|iPod/i.test(ua)) {
+                    console.log(("iphone"));
+                    if (exifOrientation == 6 || exifOrientation == 8 || exifOrientation == 3 || exifOrientation == undefined ) {
+                        switch(exifOrientation){
+                            case 3:
+                                console.log('3 旋轉180°');
+                                rotateAngle = 180;
+                                newImage.style.transform = 'rotate('+rotateAngle+'deg)'
+                                break;
+                            case 6:
+                                console.log('6 向左旋轉90°');
+                                rotateAngle = -90;
+                                newImage.style.transform = 'rotate('+rotateAngle+'deg)'
+                                break;
+                            case 8:
+                                console.log('8 向右旋轉90');
+                                rotateAngle = 90;
+                                newImage.style.transform = 'rotate('+rotateAngle+'deg)'
+                                break;
+                            case undefined:
+                                console.log('undefined  不旋轉');
+                                newImage = img;
+                                break;
+                        }
+                    } 
+                } else {
+                    console.log("desktop Andriod");
+                    return
+                }
             return newImage;
         });
     }
@@ -165,7 +172,6 @@ function rotateImage(image) {
     var newImage = new Image();
     //旋轉圖片操作
     EXIF.getData(image, function () {
-        console.log("hi");
             var orientation = EXIF.getTag(this,'Orientation');
             // orientation = 6;//測試資料
             console.log('orientation:'+orientation);
