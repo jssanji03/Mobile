@@ -14,59 +14,44 @@ window.onerror = function (errMsg, scriptURI, lineNumber, columnNumber, errorObj
 };
 
 
-document.querySelector('input').addEventListener('change', function () {
+document.querySelectorAll('input').forEach((item) => {
+    const newNodeBottom = document.createElement("div");
+    const hr = document.createElement("hr");
+    newNodeBottom.classList.add("row","item","mt-3")
+    item.parentNode.appendChild(newNodeBottom)
+    item.parentNode.appendChild(hr)
+    item.addEventListener('change', function () {
     var that = this;
     // document.querySelector(".item").innerHTML = ""; // 清除預覽
     if (that.files.length > 0) {
         for (var i = 0; i < that.files.length; i++) { 
             lrz(that.files[i], {
-                width: 800,
+                width: 640,
             }).then(
                 function (rst) {
+                    console.log(rst);
                     var img = new Image(),
                         div = document.createElement('div'),
-                        deleteItem = document.createElement('div'),
-                        p = document.createElement('p'),
-                        sourceSize = toFixed2(that.files[0].size / 1024),
-                        resultSize = toFixed2(rst.fileLen / 1024),
-                        scale = parseInt(100 - (resultSize / sourceSize * 100));
+                        deleteItem = document.createElement('div');
+                        // p = document.createElement('p'),
+                        // sourceSize = toFixed2(that.files[0].size / 1024),
+                        // resultSize = toFixed2(rst.fileLen / 1024),
+                        // scale = parseInt(100 - (resultSize / sourceSize * 100));
+                        deleteItem.className = "js-cancel"
+                        div.className = 'col-sm-6 cancel';
+                        deleteItem.onclick = function () {                          //绑定点击事件
+                            this.parentNode.parentNode.removeChild(div)
+                        };
+                        div.appendChild(deleteItem);
+                        div.appendChild(img);
                         
-                    const u = navigator.userAgent;
-                    const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android終端
-                    const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios終端
-
-                    
-                    
-                    deleteItem.className = "js-cancel"
-                    div.className = 'col-sm-6 cancel';
-                    deleteItem.onclick = function () {                          //绑定点击事件
-                        this.parentNode.parentNode.removeChild(div)
-                    };
-                    div.appendChild(deleteItem);
-                    div.appendChild(img);
-                    // div.appendChild(p);
-                    // p.style.fontSize = 13 + 'px';
-                    // p.innerHTML      = '源文件：<span class="text-danger">' +
-                    //     sourceSize + 'KB' +
-                    //     '</span> <br />' +
-                    //     '压缩后传输大小：<span class="text-success">' +
-                    //     resultSize + 'KB (省' + scale + '%)' +
-                    //     '</span> ';
-                   
-                    // if (isiOS == true) {
-                    //     img_load(rst,img)
-                    // }
-                    
-                    // const newImages = img_load(rst,img)
-                    // newImages.onload = function () {
-                    //     document.querySelector('.item').appendChild(div);
-                    // };
-                    // newImages.src = rst.base64;
+                        
 
                     img.onload = function () {
-                        document.querySelector('.item').appendChild(div);
-                        var parentDOM = document.querySelector(".item");
-                        const nameID = parentDOM.getElementsByTagName("img")
+                        newNodeBottom.appendChild(div);
+                        // document.querySelector('.item').appendChild(div);
+                        // var parentDOM = document.querySelector(".item");
+                        const nameID = newNodeBottom.getElementsByTagName("img")
                         img_load(rst,img)
                         for (let i = 0; i < nameID.length; i++){
                             nameID[i].setAttribute("name", `image.${i}`);
@@ -75,19 +60,72 @@ document.querySelector('input').addEventListener('change', function () {
                     img.src = rst.base64;
                     
                     
-                    // let nameId = 1
-                    // img.setAttribute("name", `image.${nameId}`);
-                    // var arrImg = document.images;
-                    // img.forEach((item) => {
-                    //     console.log(item);
-                    //     console.log("hi");
-                    // })
                     return rst;
                 }
             );
         }
     }
 });
+})
+// document.querySelector('input').addEventListener('change', function () {
+//     var that = this;
+//     // document.querySelector(".item").innerHTML = ""; // 清除預覽
+//     if (that.files.length > 0) {
+//         for (var i = 0; i < that.files.length; i++) { 
+//             lrz(that.files[i], {
+//                 width: 800,
+//             }).then(
+//                 function (rst) {
+//                     var img = new Image(),
+//                         div = document.createElement('div'),
+//                         deleteItem = document.createElement('div');
+//                         // p = document.createElement('p'),
+//                         // sourceSize = toFixed2(that.files[0].size / 1024),
+//                         // resultSize = toFixed2(rst.fileLen / 1024),
+//                         // scale = parseInt(100 - (resultSize / sourceSize * 100));
+                        
+
+                    
+                    
+//                     deleteItem.className = "js-cancel"
+//                     div.className = 'col-sm-6 cancel';
+//                     deleteItem.onclick = function () {                          //绑定点击事件
+//                         this.parentNode.parentNode.removeChild(div)
+//                     };
+//                     div.appendChild(deleteItem);
+//                     div.appendChild(img);
+//                     // div.appendChild(p);
+//                     // p.style.fontSize = 13 + 'px';
+//                     // p.innerHTML      = '源文件：<span class="text-danger">' +
+//                     //     sourceSize + 'KB' +
+//                     //     '</span> <br />' +
+//                     //     '压缩后传输大小：<span class="text-success">' +
+//                     //     resultSize + 'KB (省' + scale + '%)' +
+//                     //     '</span> ';
+                   
+//                     // if (isiOS == true) {
+//                     //     img_load(rst,img)
+//                     // }
+                    
+
+//                     img.onload = function () {
+//                         document.querySelector('.item').appendChild(div);
+//                         var parentDOM = document.querySelector(".item");
+//                         const nameID = parentDOM.getElementsByTagName("img")
+//                         img_load(rst,img)
+//                         for (let i = 0; i < nameID.length; i++){
+//                             nameID[i].setAttribute("name", `image.${i}`);
+//                         }
+//                     };
+//                     img.src = rst.base64;
+                    
+                    
+//                     return rst;
+//                 }
+//             );
+//         }
+//     }
+// });
 
 
 document.querySelector('.UA').innerHTML = 'UA: ' + navigator.userAgent;
@@ -157,94 +195,3 @@ String.prototype.render = function (obj) {
 };
 
 
-/**
- * 旋轉圖片
- * @param image         HTMLImageElement
- * @returns newImage    HTMLImageElement
- */
-function rotateImage(image) {
-    console.log('rotateImage');
-    console.log(image);
-    var width = image.width;
-    var height = image.height;
-    var canvas = document.createElement("canvas")
-    var ctx = canvas.getContext('2d');
-    var newImage = new Image();
-    //旋轉圖片操作
-    EXIF.getData(image, function () {
-            var orientation = EXIF.getTag(this,'Orientation');
-            // orientation = 6;//測試資料
-            console.log('orientation:'+orientation);
-            switch (orientation){
-                //正常狀態
-                case 1:
-                    console.log('旋轉0°');
-                    // canvas.height = height;
-                    // canvas.width = width;
-                    newImage = image;
-                    break;
-                //旋轉90度
-                case 6:
-                    console.log('旋轉90°');
-                    canvas.height = width;
-                    canvas.width = height;
-                    ctx.rotate(Math.PI/2);
-                    ctx.translate(0,-height);
-                    ctx.drawImage(image,0,0)
-                    imageDate = canvas.toDataURL('Image/jpeg',1)
-                    newImage.src = imageDate;
-                    break;
-                //旋轉180°
-                case 3:
-                    console.log('旋轉180°');
-                    canvas.height = height;
-                    canvas.width = width;
-                    ctx.rotate(Math.PI);
-                    ctx.translate(-width,-height);
-                    ctx.drawImage(image,0,0)
-                    imageDate = canvas.toDataURL('Image/jpeg',1)
-                    newImage.src = imageDate;
-                    break;
-                //旋轉270°
-                case 8:
-                    console.log('旋轉270°');
-                    canvas.height = width;
-                    canvas.width = height;
-                    ctx.rotate(-Math.PI/2);
-                    ctx.translate(-height,0);
-                    ctx.drawImage(image,0,0)
-                    imageDate = canvas.toDataURL('Image/jpeg',1)
-                    newImage.src = imageDate;
-                    break;
-                //undefined時不旋轉
-                case undefined:
-                    console.log('undefined  不旋轉');
-                    newImage = image;
-                    break;
-            }
-        }
-    );
-    return newImage;
-}
-
-/**
- *
- * 　　　┏┓　　　┏┓
- * 　　┏┛┻━━━┛┻┓
- * 　　┃　　　　　　　┃
- * 　　┃　　　━　　　┃
- * 　　┃　┳┛　┗┳　┃
- * 　　┃　　　　　　　┃
- * 　　┃　　　┻　　　┃
- * 　　┃　　　　　　　┃
- * 　　┗━┓　　　┏━┛Code is far away from bug with the animal protecting
- * 　　　　┃　　　┃    神兽保佑,代码无bug
- * 　　　　┃　　　┃
- * 　　　　┃　　　┗━━━┓
- * 　　　　┃　　　　　 ┣┓
- * 　　　　┃　　　　 ┏┛
- * 　　　　┗┓┓┏━┳┓┏┛
- * 　　　　　┃┫┫　┃┫┫
- * 　　　　　┗┻┛　┗┻┛
- *
- */
